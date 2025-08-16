@@ -1,1 +1,7 @@
 extends: airbnb-base
+rules:
+  linebreak-style: ["error", "unix"]
+  indent: ["error", 2]
+  no-console: "off"
+env:
+  browser: true

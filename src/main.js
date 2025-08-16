@@ -1,5 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('rss-form');
 
@@ -8,19 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const formData = new FormData(e.target);
     const url = formData.get('url');
 
-    // Пример обработки с промисами
     new Promise((resolve) => {
-      // Здесь будет логика загрузки RSS
       console.log('Начало загрузки:', url);
       resolve(url);
     })
-    .then((result) => {
-      console.log('RSS загружен:', result);
-      // Обработка успешной загрузки
-    })
-    .catch((error) => {
-      console.error('Ошибка:', error);
-      // Обработка ошибок
-    });
+      .then((result) => {
+        console.log('RSS загружен:', result);
+      })
+      .catch((error) => {
+        console.error('Ошибка:', error);
+      });
   });
 });
