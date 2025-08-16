@@ -1,0 +1,7 @@
+# .gitattributes
+* text=auto eol=lf
+
+# Исключения для бинарных файлов
+*.png binary
+*.jpg binary
+*.zip binary
