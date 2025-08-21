@@ -1,4 +1,3 @@
-// state.js
 import onChange from 'on-change';
 
 export const initState = () => {
@@ -6,7 +5,7 @@ export const initState = () => {
     feeds: [],
     posts: [],
     form: {
-      status: 'filling',
+      status: 'filling', // 'filling', 'validating', 'invalid', 'submitted'
       error: null,
       url: '',
     },
@@ -19,15 +18,8 @@ export const initState = () => {
 };
 
 export const addFeed = (state, url) => {
-  // Получаем текущее значение feeds из проксированного состояния
-  const currentFeeds = [...state.feeds];
-  // Добавляем новый URL
-  currentFeeds.push(url.toLowerCase());
-  // Обновляем состояние
-  state.feeds = currentFeeds;
+  const newState = onChange.target(state);
+  newState.feeds.push(url.toLowerCase());
 };
 
-export const setLanguage = (state, lng) => {
-  // Изменяем язык напрямую в состоянии
-  state.lng = lng;
-};
+export const setLanguage = (state, lng) => ({ ...state, value: lng });
