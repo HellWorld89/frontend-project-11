@@ -1,20 +1,19 @@
 {
-  "rssAggregator": "RSS Агрегатор",
-  "startReading": "Начните читать RSS сегодня! Это легко, это красиво.",
+  "title": "RSS агрегатор",
+  "description": "Начните читать RSS сегодня! Это легко, это красиво.",
   "rssLink": "Ссылка RSS",
-  "add": "Добавить",
+  "button": "Добавить",
   "example": "Пример: https://lorem-rss.hexlet.app/feed",
-  "errors": {
-    "required": "Не должно быть пустым",
-    "url": "Ссылка должна быть валидным URL",
-    "notOneOf": "RSS уже существует",
-    "unknown": "Неизвестная ошибка"
-  },
-  "feedsTitle": "Фиды",
-  "postsTitle": "Посты",
   "loading": "Загрузка...",
   "success": "RSS успешно загружен",
-  "title": "RSS Агрегатор",
-  "description": "Начните читать RSS сегодня! Это легко, это красиво.",
-  "button": "Добавить"
+  "errors": {
+    "required": "Это поле обязательно",
+    "url": "Должно быть валидным URL",
+    "notOneOf": "RSS уже существует",
+    "network": "Ошибка сети",
+    "parsing": "Ошибка парсинга",
+    "unknown": "Неизвестная ошибка"
+  },
+  "feeds": "Фиды",
+  "posts": "Посты"
 }

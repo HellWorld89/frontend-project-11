@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 
-export const createValidator = (existingFeeds) => yup.string()
+export const createValidator = (existingUrls) => yup.string()
   .required()
   .url()
-  .notOneOf(existingFeeds);
+  .notOneOf(existingUrls);
 
 export const validateUrl = (url, schema) => new Promise((resolve, reject) => {
   schema.validate(url)

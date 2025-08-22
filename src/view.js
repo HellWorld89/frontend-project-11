@@ -5,8 +5,8 @@ export default class View {
     this.form = elements.form;
     this.input = elements.input;
     this.feedback = elements.feedback;
-    this.postsContainer = document.querySelector('.posts');
-    this.feedsContainer = document.querySelector('.feeds');
+    this.feedsContainer = document.querySelector('.feeds-container');
+    this.postsContainer = document.querySelector('.posts-container');
     this.langSwitcher = document.getElementById('lang-switcher');
   }
 
@@ -52,11 +52,45 @@ export default class View {
     });
   }
 
+  renderFeeds() {
+    if (!this.feedsContainer) return;
+    this.feedsContainer.innerHTML = '';
+    const fragment = document.createDocumentFragment();
+    this.state.feeds.forEach((feed) => {
+      const feedEl = document.createElement('div');
+      feedEl.classList.add('card', 'mb-3');
+      feedEl.innerHTML = `
+        <div class="card-body">
+          <h3 class="card-title">${feed.title}</h3>
+          <p class="card-text">${feed.description}</p>
+        </div>
+      `;
+      fragment.appendChild(feedEl);
+    });
+    this.feedsContainer.appendChild(fragment);
+  }
+
+  renderPosts() {
+    if (!this.postsContainer) return;
+    this.postsContainer.innerHTML = '';
+    const fragment = document.createDocumentFragment();
+    this.state.posts.forEach((post) => {
+      const postEl = document.createElement('div');
+      postEl.classList.add('list-group-item');
+      postEl.innerHTML = `
+        <a href="${post.link}" target="_blank" rel="noopener noreferrer">${post.title}</a>
+      `;
+      fragment.appendChild(postEl);
+    });
+    this.postsContainer.appendChild(fragment);
+  }
+
   render() {
     this.input.classList.remove('is-invalid');
     this.feedback.classList.remove('text-danger', 'text-success');
     this.feedback.textContent = '';
-
+    this.renderFeeds();
+    this.renderPosts();
     switch (this.state.form.status) {
     case 'invalid':
       this.input.classList.add('is-invalid');

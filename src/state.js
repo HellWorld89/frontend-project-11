@@ -17,9 +17,10 @@ export const initState = () => {
   });
 };
 
-export const addFeed = (state, url) => {
+export const addFeed = (state, feed, newPosts) => {
   const newState = onChange.target(state);
-  newState.feeds.push(url.toLowerCase());
+  newState.feeds.push(feed);
+  newState.posts.push(...newPosts);
 };
 
-export const setLanguage = (state, lng) => ({ ...state, value: lng });
+export const setLanguage = (state, lng) => ({ ...state, lng });

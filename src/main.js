@@ -2,6 +2,7 @@ import { initState, addFeed } from './state';
 import View from './view';
 import { createValidator, validateUrl } from './validator';
 import i18next from './i18n';
+import { fetchRSS, processFeed } from './rss';
 
 const elements = {
   form: document.querySelector('.rss-form'),
@@ -30,20 +31,29 @@ elements.form.addEventListener('submit', (e) => {
   console.log('Existing feeds:', state.feeds);
   console.log('URL to validate:', url);
 
-  const existingUrls = state.feeds.map((feed) => feed);
+  const existingUrls = state.feeds.map((feed) => feed.url);
   const validator = createValidator(existingUrls);
 
   console.log('Existing URLs:', existingUrls);
 
   validateUrl(url, validator)
-    .then((validUrl) => {
-      addFeed(state, validUrl);
+    .then((validUrl) => fetchRSS(validUrl))
+    .then((data) => processFeed(url, data))
+    .then(({ feed, posts }) => {
+      const feedId = Date.now();
+      const feedWithId = { ...feed, id: feedId, url };
+      const postsWithId = posts.map((post, index) => ({
+        ...post,
+        id: `${feedId}-${index}`,
+        feedId,
+      }));
+      addFeed(state, feedWithId, postsWithId);
       state.form.status = 'submitted';
       state.form.error = null;
     })
-    .catch((errorKey) => {
+    .catch((error) => {
       state.form.status = 'invalid';
-      state.form.error = errorKey;
+      state.form.error = error;
     })
     .finally(() => {
       view.render();
