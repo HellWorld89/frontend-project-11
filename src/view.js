@@ -91,7 +91,7 @@ export default class View {
     this.feedback.textContent = '';
     this.renderFeeds();
     this.renderPosts();
-    this.renderUpdateIndicator();
+    View.renderUpdateIndicator();
     switch (this.state.form.status) {
     case 'invalid':
       this.input.classList.add('is-invalid');
@@ -115,22 +115,22 @@ export default class View {
     }
   }
 
-  renderUpdateIndicator() {
-  let indicator = document.getElementById('update-indicator');
-  if (!indicator) {
-    indicator = document.createElement('div');
-    indicator.id = 'update-indicator';
-    indicator.style.position = 'fixed';
-    indicator.style.bottom = '10px';
-    indicator.style.right = '10px';
-    indicator.style.padding = '5px 10px';
-    indicator.style.background = 'rgba(0, 0, 0, 0.7)';
-    indicator.style.color = 'white';
-    indicator.style.borderRadius = '4px';
-    indicator.style.fontSize = '12px';
-    indicator.style.zIndex = '1000';
-    document.body.appendChild(indicator);
+  static renderUpdateIndicator() {
+    let indicator = document.getElementById('update-indicator');
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.id = 'update-indicator';
+      indicator.style.position = 'fixed';
+      indicator.style.bottom = '10px';
+      indicator.style.right = '10px';
+      indicator.style.padding = '5px 10px';
+      indicator.style.background = 'rgba(0, 0, 0, 0.7)';
+      indicator.style.color = 'white';
+      indicator.style.borderRadius = '4px';
+      indicator.style.fontSize = '12px';
+      indicator.style.zIndex = '1000';
+      document.body.appendChild(indicator);
+    }
+    indicator.textContent = `Последнее обновление: ${new Date().toLocaleTimeString()}`;
   }
-  indicator.textContent = `Последнее обновление: ${new Date().toLocaleTimeString()}`;
-}
 }
