@@ -2,7 +2,7 @@ import { initState, addFeed } from './state';
 import View from './view';
 import { createValidator, validateUrl } from './validator';
 import i18next from './i18n';
-import { fetchRSS, processFeed } from './rss';
+import { fetchRSS, processFeed, startUpdateCycle } from './rss';
 
 const elements = {
   form: document.querySelector('.rss-form'),
@@ -10,8 +10,10 @@ const elements = {
   feedback: document.querySelector('.feedback'),
 };
 
-const state = initState();
 const view = new View(elements);
+const state = initState(() => {
+  view.render(); // Этот callback будет вызываться при изменениях состояния
+});
 
 i18next.on('initialized', () => {
   view.init(state);
@@ -50,6 +52,8 @@ elements.form.addEventListener('submit', (e) => {
       addFeed(state, feedWithId, postsWithId);
       state.form.status = 'submitted';
       state.form.error = null;
+
+      startUpdateCycle(state);
     })
     .catch((error) => {
       state.form.status = 'invalid';

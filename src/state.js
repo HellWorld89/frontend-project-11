@@ -1,6 +1,6 @@
 import onChange from 'on-change';
 
-export const initState = () => {
+export const initState = (onChangeCallback) => {
   const state = {
     feeds: [],
     posts: [],
@@ -10,6 +10,7 @@ export const initState = () => {
       url: '',
     },
     lng: 'ru',
+    onChangeCallback,
   };
 
   return onChange(state, (path, value) => {
@@ -20,7 +21,16 @@ export const initState = () => {
 export const addFeed = (state, feed, newPosts) => {
   const newState = onChange.target(state);
   newState.feeds.push(feed);
-  newState.posts.push(...newPosts);
+  newState.posts.unshift(...newPosts);
 };
 
 export const setLanguage = (state, lng) => ({ ...state, lng });
+
+export const addPosts = (state, newPosts) => {
+  const newState = onChange.target(state);
+  newState.posts.unshift(...newPosts);
+
+  if (typeof state.onChangeCallback === 'function') {
+    state.onChangeCallback();
+  }
+};

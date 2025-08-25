@@ -13,10 +13,12 @@ const parseRSS = (data) => {
   const items = channel.querySelectorAll('item');
   const posts = Array.from(items).map((item) => {
     const descElement = item.querySelector('description');
+    const pubDateElement = item.querySelector('pubDate');
     return {
       title: item.querySelector('title').textContent,
       link: item.querySelector('link').textContent,
       description: descElement ? descElement.textContent : '',
+      pubDate: pubDateElement ? pubDateElement.textContent : null,
     };
   });
 
