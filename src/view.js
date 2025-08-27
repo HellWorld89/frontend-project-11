@@ -1,3 +1,4 @@
+import { Modal } from 'bootstrap';
 import i18next from './i18n';
 
 export default class View {
@@ -8,12 +9,33 @@ export default class View {
     this.feedsContainer = document.querySelector('.feeds-container');
     this.postsContainer = document.querySelector('.posts-container');
     this.langSwitcher = document.getElementById('lang-switcher');
+
+    this.modalCloseButton = document.getElementById('modalCloseButton');
+    this.modalReadFullButton = document.getElementById('modalReadFullButton');
+
+    this.modal = new Modal(document.getElementById('postPreviewModal'));
+    this.modalTitle = document.getElementById('postPreviewModalLabel');
+    this.modalDescription = document.getElementById('postPreviewDescription');
+    this.modalLink = document.getElementById('postPreviewLink');
   }
 
   init(state) {
     this.state = state;
     this.render();
     this.setupLanguageSwitcher();
+    this.updateModalTexts();
+  }
+
+  updateModalTexts() {
+    if (this.modalCloseButton) {
+      this.modalCloseButton.textContent = i18next.t('close');
+    }
+    if (this.modalReadFullButton) {
+      this.modalReadFullButton.textContent = i18next.t('readFull');
+    }
+    if (this.modalTitle) {
+      this.modalTitle.textContent = i18next.t('preview');
+    }
   }
 
   setupLanguageSwitcher() {
@@ -26,6 +48,7 @@ export default class View {
         this.state.lng = newLng;
         this.render();
         View.updateStaticTexts();
+        this.updateModalTexts();
 
         if (this.state.form.status === 'invalid') {
           this.feedback.textContent = i18next.t(this.state.form.error);
@@ -75,14 +98,46 @@ export default class View {
     this.postsContainer.innerHTML = '';
     const fragment = document.createDocumentFragment();
     this.state.posts.forEach((post) => {
+      const isRead = this.state.readPostIds.includes(post.id);
       const postEl = document.createElement('div');
-      postEl.classList.add('list-group-item');
+      postEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start');
       postEl.innerHTML = `
-        <a href="${post.link}" target="_blank" rel="noopener noreferrer">${post.title}</a>
+        <a href="${post.link}"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="${isRead ? 'fw-normal' : 'fw-bold'} me-3 flex-grow-1">
+          ${post.title}
+        </a>
+        <button type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-id="${post.id}"
+                data-bs-toggle="modal"
+                data-bs-target="#postPreviewModal">
+          ${i18next.t('preview')}
+        </button>
       `;
+      const previewButton = postEl.querySelector('button');
+      previewButton.addEventListener('click', () => {
+        if (this.state.onPreviewButtonClick) {
+          this.state.onPreviewButtonClick(post.id);
+        }
+      });
       fragment.appendChild(postEl);
     });
     this.postsContainer.appendChild(fragment);
+  }
+
+  openModal(post) {
+    this.modalTitle.textContent = post.title;
+    let description = post.description || i18next.t('noDescription');
+    description = description.replace(
+      /<img/g,
+      '<img style="max-width: 100%; height: auto;"',
+    );
+    this.modalDescription.innerHTML = description;
+    this.modalLink.href = post.link;
+    this.updateModalTexts();
+    this.modal.show();
   }
 
   render() {

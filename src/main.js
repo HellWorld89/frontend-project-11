@@ -1,4 +1,6 @@
-import { initState, addFeed } from './state';
+import {
+  initState, addFeed, openModal, closeModal,
+} from './state';
 import View from './view';
 import { createValidator, validateUrl } from './validator';
 import i18next from './i18n';
@@ -18,8 +20,20 @@ const state = initState(() => {
 i18next.on('initialized', () => {
   view.init(state);
   View.updateStaticTexts();
-});
 
+  // Теперь view.state определен, можно добавлять обработчики
+  view.state.onPreviewButtonClick = (postId) => {
+    const post = state.posts.find((p) => p.id === postId);
+    if (post) {
+      openModal(state, postId);
+      view.openModal(post);
+    }
+  };
+
+  view.state.onModalClose = () => {
+    closeModal(state);
+  };
+});
 elements.form.addEventListener('submit', (e) => {
   e.preventDefault();
 

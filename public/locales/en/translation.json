@@ -15,5 +15,9 @@
     "unknown": "Unknown error"
   },
   "feeds": "Feeds",
-  "posts": "Posts"
+  "posts": "Posts",
+  "preview": "Preview",
+  "close": "Close",
+  "readFull": "Read full",
+  "noDescription": "No description available"
 }

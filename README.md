@@ -4,8 +4,8 @@
 # RSS Агрегатор
 
 [![Vercel Deployment](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-green?style=for-the-badge)](https://frontend-project-11-macphkpo0-sapozhnikovls-projects.vercel.app)
-[![Vercel Status](https://img.shields.io/static/v1?label=Vercel&message=Production&color=blue&logo=vercel)](https://frontend-project-11-macphkpo0-sapozhnikovls-projects.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-green?style=for-the-badge)](https://frontend-project-11-793vliyol-sapozhnikovls-projects.vercel.app)
+[![Vercel Status](https://img.shields.io/static/v1?label=Vercel&message=Production&color=blue&logo=vercel)](https://frontend-project-11-793vliyol-sapozhnikovls-projects.vercel.app)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg)](https://developer.mozilla.org/ru/docs/Web/JavaScript)
 [![Vite](https://img.shields.io/badge/Vite-Build%20Tool-646CFF.svg)](https://vitejs.dev/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg)](https://getbootstrap.com/)
@@ -22,6 +22,7 @@
 - ✅ Валидация URL и проверка на дубликаты
 - ✅ Адаптивный интерфейс на Bootstrap
 - ✅ Обработка сетевых ошибок и ошибок парсинга
+- ✅ Предпросмотр постов
 
 ## 🛠 Технологии
 
@@ -92,9 +93,9 @@ frontend-project-11/
    https://lorem-rss.hexlet.app/feed?unit=minute&interval=1
    ```
 
-3. **Новости Reddit**
+3. **Новости GOHA.ru**
    ```
-   https://www.reddit.com/r/news.rss
+   https://www.goha.ru/rss/news
    ```
 
 4. **Новости BBC**
@@ -147,6 +148,22 @@ frontend-project-11/
 - Неподдерживаемый формат RSS
 
 Все ошибки отображаются пользователю на соответствующем языке.
+
+## 🔍 Предпросмотр постов
+
+- Кнопка предпросмотра для каждого поста с мультиязычной поддержкой
+- Модальное окно с полной информацией о посте:
+- Заголовок поста
+- Описание с поддержкой HTML-контента
+- Адаптивные изображения (автоматическое масштабирование)
+- Ссылка для чтения полной статьи
+- Система отметки прочитанного:
+- Новые посты выделены жирным шрифтом (fw-bold)
+- Просмотренные посты имеют обычное начертание (fw-normal)
+- Автоматическая пометка при открытии предпросмотра
+- Оптимизированное отображение контента:
+- Изображения не выходят за границы модального окна
+- Грациозная обработка случаев отсутствия описания
 
 ## 🔮 Возможные улучшения
 

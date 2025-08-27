@@ -10,25 +10,54 @@ export const initState = (onChangeCallback) => {
       url: '',
     },
     lng: 'ru',
+    readPostIds: [],
+    ui: {
+      modal: { // Добавляем состояние для модального окна
+        isOpen: false,
+        postId: null,
+      },
+    },
     onChangeCallback,
   };
 
   return onChange(state, (path, value) => {
     console.log('State changed:', path, value);
+    if (typeof state.onChangeCallback === 'function') {
+      state.onChangeCallback();
+    }
   });
 };
 
 export const addFeed = (state, feed, newPosts) => {
+  // Создаем копии массивов вместо прямого изменения параметров
   const newState = onChange.target(state);
-  newState.feeds.push(feed);
-  newState.posts.unshift(...newPosts);
+  newState.feeds = [...newState.feeds, feed];
+  newState.posts = [...newPosts, ...newState.posts];
 };
 
-export const setLanguage = (state, lng) => ({ ...state, lng });
+export const markPostAsRead = (state, postId) => {
+  const newState = onChange.target(state);
+  if (!newState.readPostIds.includes(postId)) {
+    newState.readPostIds = [...newState.readPostIds, postId];
+  }
+};
+
+export const openModal = (state, postId) => {
+  const newState = onChange.target(state);
+  newState.ui.modal.isOpen = true;
+  newState.ui.modal.postId = postId;
+  markPostAsRead(newState, postId);
+};
+
+export const closeModal = (state) => {
+  const newState = onChange.target(state);
+  newState.ui.modal.isOpen = false;
+  newState.ui.modal.postId = null;
+};
 
 export const addPosts = (state, newPosts) => {
   const newState = onChange.target(state);
-  newState.posts.unshift(...newPosts);
+  newState.posts = [...newPosts, ...newState.posts];
 
   if (typeof state.onChangeCallback === 'function') {
     state.onChangeCallback();
