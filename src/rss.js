@@ -16,10 +16,22 @@ export function fetchRSS(url) {
   const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`;
   return axios.get(proxyUrl)
     .then((response) => {
-      if (response.data.status.http_code !== 200) {
+      if (!response.data || typeof response.data !== 'object') {
+        throw new Error('errors.network');
+      } let httpCode = response.status;
+      if (response.data.status && response.data.status.http_code) {
+        httpCode = response.data.status.http_code;
+      } else if (response.data.contents
+        && response.data.contents.status
+        && response.data.contents.status.http_code) {
+        httpCode = response.data.contents.status.http_code;
+      }
+
+      if (httpCode !== 200) {
         throw new Error('errors.network');
       }
-      return response.data.contents;
+
+      return response.data.contents || response.data;
     })
     .catch((error) => {
       if (error.isAxiosError) {
@@ -31,7 +43,8 @@ export function fetchRSS(url) {
 
 export function processFeed(url, data) {
   try {
-    return parseRSS(data);
+    const content = typeof data === 'string' ? data : data.contents;
+    return parseRSS(content);
   } catch (error) {
     throw new Error('errors.parsing');
   }
