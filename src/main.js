@@ -111,7 +111,8 @@ elements.form.addEventListener('submit', async (e) => {
     startUpdateCycle(state);
   } catch (error) {
     state.form.status = 'invalid';
-    state.form.error = error;
+    const errorKey = error instanceof Error ? error.message : error;
+    state.form.error = errorKey;
     console.error('Error adding feed:', error);
   } finally {
     if (view.render) {

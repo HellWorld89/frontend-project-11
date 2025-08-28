@@ -4,20 +4,20 @@
   "rssLink": "Ссылка RSS",
   "button": "Добавить",
   "example": "Пример: https://lorem-rss.hexlet.app/feed",
-  "loading": "Загрузка...",
+  "posts": "Посты",
+  "feeds": "Фиды",
+  "preview": "Просмотр",
+  "close": "Закрыть",
+  "readFull": "Читать полностью",
   "success": "RSS успешно загружен",
+  "loading": "Загрузка...",
+  "noDescription": "Описание отсутствует",
   "errors": {
-    "required": "Это поле обязательно",
+    "required": "Не должно быть пустым",
     "url": "Ссылка должна быть валидным URL",
     "notOneOf": "RSS уже существует",
     "network": "Ошибка сети",
     "parsing": "Ресурс не содержит валидный RSS",
     "unknown": "Неизвестная ошибка"
-  },
-  "feeds": "Фиды",
-  "posts": "Посты",
-  "preview": "Просмотр",
-  "close": "Закрыть",
-  "readFull": "Читать полностью",
-  "noDescription": "Описание недоступно"
+  }
 }

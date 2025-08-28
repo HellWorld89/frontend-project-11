@@ -1,23 +1,23 @@
 {
-  "title": "RSS aggregator",
-  "description": "Start reading RSS today! It is easy, it is beautiful.",
+  "title": "RSS Aggregator",
+  "description": "Start reading RSS today! It's easy, it's beautiful.",
   "rssLink": "RSS link",
   "button": "Add",
   "example": "Example: https://lorem-rss.hexlet.app/feed",
-  "loading": "Loading...",
+  "posts": "Posts",
+  "feeds": "Feeds",
+  "preview": "Preview",
+  "close": "Close",
+  "readFull": "Read full",
   "success": "RSS successfully loaded",
+  "loading": "Loading...",
+  "noDescription": "No description",
   "errors": {
-    "required": "This field is required",
+    "required": "Should not be empty",
     "url": "The link must be a valid URL",
     "notOneOf": "RSS already exists",
     "network": "Network error",
     "parsing": "The resource does not contain valid RSS",
     "unknown": "Unknown error"
-  },
-  "feeds": "Feeds",
-  "posts": "Posts",
-  "preview": "Preview",
-  "close": "Close",
-  "readFull": "Read full",
-  "noDescription": "No description available"
+  }
 }
