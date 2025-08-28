@@ -8,10 +8,10 @@
   "success": "RSS successfully loaded",
   "errors": {
     "required": "This field is required",
-    "url": "Must be a valid URL",
+    "url": "The link must be a valid URL",
     "notOneOf": "RSS already exists",
     "network": "Network error",
-    "parsing": "Parsing error",
+    "parsing": "The resource does not contain valid RSS",
     "unknown": "Unknown error"
   },
   "feeds": "Feeds",
