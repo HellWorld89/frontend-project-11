@@ -77,6 +77,10 @@ export default class View {
 
   renderFeeds() {
     if (!this.feedsContainer) return;
+    if (!this.state.feeds) {
+      console.error('Feeds are not defined in state');
+      return;
+    }
     this.feedsContainer.innerHTML = '';
     const fragment = document.createDocumentFragment();
     this.state.feeds.forEach((feed) => {
@@ -95,6 +99,10 @@ export default class View {
 
   renderPosts() {
     if (!this.postsContainer) return;
+    if (!this.state.posts) {
+      console.error('Posts are not defined in state');
+      return;
+    }
     this.postsContainer.innerHTML = '';
     const fragment = document.createDocumentFragment();
     this.state.posts.forEach((post) => {
@@ -141,6 +149,10 @@ export default class View {
   }
 
   render() {
+    if (!this.state) {
+      console.error('View state is not initialized');
+      return;
+    }
     this.input.classList.remove('is-invalid');
     this.feedback.classList.remove('text-danger', 'text-success');
     this.feedback.textContent = '';

@@ -12,7 +12,7 @@ export const initState = (onChangeCallback) => {
     lng: 'ru',
     readPostIds: [],
     ui: {
-      modal: { // Добавляем состояние для модального окна
+      modal: {
         isOpen: false,
         postId: null,
       },
@@ -29,7 +29,6 @@ export const initState = (onChangeCallback) => {
 };
 
 export const addFeed = (state, feed, newPosts) => {
-  // Создаем копии массивов вместо прямого изменения параметров
   const newState = onChange.target(state);
   newState.feeds = [...newState.feeds, feed];
   newState.posts = [...newPosts, ...newState.posts];

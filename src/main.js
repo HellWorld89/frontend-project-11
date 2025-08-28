@@ -10,18 +10,46 @@ const elements = {
   form: document.querySelector('.rss-form'),
   input: document.getElementById('url-input'),
   feedback: document.querySelector('.feedback'),
+  submitButton: document.querySelector('button[type="submit"]'),
 };
+
+// Добавляем проверку на существование элементов
+if (!elements.form || !elements.input || !elements.feedback) {
+  throw new Error('Required elements not found in DOM');
+}
 
 const view = new View(elements);
 const state = initState(() => {
-  view.render(); // Этот callback будет вызываться при изменениях состояния
+  if (view.render) {
+    view.render();
+  }
 });
 
-i18next.on('initialized', () => {
+// Флаг инициализации
+let isAppInitialized = false;
+
+// Функция инициализации приложения
+function initializeApp() {
+  return new Promise((resolve) => {
+    if (i18next.isInitialized) {
+      resolve();
+      return;
+    }
+
+    i18next.on('initialized', () => {
+      console.log('i18n initialized successfully');
+      resolve();
+    });
+  });
+}
+
+// Инициализируем приложение
+initializeApp().then(() => {
   view.init(state);
   View.updateStaticTexts();
+  isAppInitialized = true;
 
-  // Теперь view.state определен, можно добавлять обработчики
+  // Устанавливаем обработчики после инициализации
   view.state.onPreviewButtonClick = (postId) => {
     const post = state.posts.find((p) => p.id === postId);
     if (post) {
@@ -33,47 +61,66 @@ i18next.on('initialized', () => {
   view.state.onModalClose = () => {
     closeModal(state);
   };
+
+  console.log('Application initialized successfully');
+}).catch((error) => {
+  console.error('Failed to initialize application:', error);
 });
-elements.form.addEventListener('submit', (e) => {
+
+// Обработчик формы
+elements.form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const formData = new FormData(e.target);
-  const rawUrl = formData.get('url');
-  const url = rawUrl ? rawUrl.trim() : '';
+  if (!isAppInitialized) {
+    console.error('Application is not initialized yet');
+    return;
+  }
 
-  state.form.status = 'validating';
-  state.form.url = url;
+  // Блокируем кнопку отправки
+  if (elements.submitButton) {
+    elements.submitButton.disabled = true;
+  }
 
-  console.log('Existing feeds:', state.feeds);
-  console.log('URL to validate:', url);
+  try {
+    const formData = new FormData(e.target);
+    const rawUrl = formData.get('url');
+    const url = rawUrl ? rawUrl.trim() : '';
 
-  const existingUrls = state.feeds.map((feed) => feed.url);
-  const validator = createValidator(existingUrls);
+    state.form.status = 'validating';
+    state.form.url = url;
 
-  console.log('Existing URLs:', existingUrls);
+    const existingUrls = state.feeds.map((feed) => feed.url);
+    const validator = createValidator(existingUrls);
 
-  validateUrl(url, validator)
-    .then((validUrl) => fetchRSS(validUrl))
-    .then((data) => processFeed(url, data))
-    .then(({ feed, posts }) => {
-      const feedId = Date.now();
-      const feedWithId = { ...feed, id: feedId, url };
-      const postsWithId = posts.map((post, index) => ({
-        ...post,
-        id: `${feedId}-${index}`,
-        feedId,
-      }));
-      addFeed(state, feedWithId, postsWithId);
-      state.form.status = 'submitted';
-      state.form.error = null;
+    const validUrl = await validateUrl(url, validator);
+    const data = await fetchRSS(validUrl);
+    const { feed, posts } = processFeed(url, data);
 
-      startUpdateCycle(state);
-    })
-    .catch((error) => {
-      state.form.status = 'invalid';
-      state.form.error = error;
-    })
-    .finally(() => {
+    const feedId = Date.now();
+    const feedWithId = { ...feed, id: feedId, url };
+    const postsWithId = posts.map((post, index) => ({
+      ...post,
+      id: `${feedId}-${index}`,
+      feedId,
+    }));
+
+    addFeed(state, feedWithId, postsWithId);
+    state.form.status = 'submitted';
+    state.form.error = null;
+
+    startUpdateCycle(state);
+  } catch (error) {
+    state.form.status = 'invalid';
+    state.form.error = error;
+    console.error('Error adding feed:', error);
+  } finally {
+    if (view.render) {
       view.render();
-    });
+    }
+
+    // Разблокируем кнопку отправки
+    if (elements.submitButton) {
+      elements.submitButton.disabled = false;
+    }
+  }
 });
