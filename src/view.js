@@ -106,12 +106,14 @@ export default class View {
       const postEl = document.createElement('div');
       postEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start');
       postEl.innerHTML = `
-      <a href="${post.link}"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="${isRead ? 'fw-normal' : 'fw-bold'} me-3 flex-grow-1">
-        ${post.title}
-      </a>
+      <div class="me-3 flex-grow-1">
+        <a href="${post.link}"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="${isRead ? 'fw-normal' : 'fw-bold'}">
+          ${post.title}
+        </a>
+      </div>
       <button type="button"
               class="btn btn-outline-primary btn-sm"
               data-id="${post.id}"
