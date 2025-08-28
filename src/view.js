@@ -99,10 +99,6 @@ export default class View {
 
   renderPosts() {
     if (!this.postsContainer) return;
-    if (!this.state.posts) {
-      console.error('Posts are not defined in state');
-      return;
-    }
     this.postsContainer.innerHTML = '';
     const fragment = document.createDocumentFragment();
     this.state.posts.forEach((post) => {
@@ -110,20 +106,22 @@ export default class View {
       const postEl = document.createElement('div');
       postEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start');
       postEl.innerHTML = `
+      <div class="me-3 flex-grow-1">
         <a href="${post.link}"
            target="_blank"
            rel="noopener noreferrer"
-           class="${isRead ? 'fw-normal' : 'fw-bold'} me-3 flex-grow-1">
+           class="${isRead ? 'fw-normal' : 'fw-bold'}">
           ${post.title}
         </a>
-        <button type="button"
-                class="btn btn-outline-primary btn-sm"
-                data-id="${post.id}"
-                data-bs-toggle="modal"
-                data-bs-target="#postPreviewModal">
-          ${i18next.t('preview')}
-        </button>
-      `;
+      </div>
+      <button type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-id="${post.id}"
+              data-bs-toggle="modal"
+              data-bs-target="#postPreviewModal">
+        ${i18next.t('preview')}
+      </button>
+    `;
       const previewButton = postEl.querySelector('button');
       previewButton.addEventListener('click', () => {
         if (this.state.onPreviewButtonClick) {
