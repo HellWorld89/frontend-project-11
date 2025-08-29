@@ -1,4 +1,4 @@
-const parseRSS = (data) => {
+const parseRSS = data => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(data, 'text/xml')
 
@@ -11,7 +11,7 @@ const parseRSS = (data) => {
   const description = channel.querySelector('description').textContent
 
   const items = channel.querySelectorAll('item')
-  const posts = Array.from(items).map((item) => {
+  const posts = Array.from(items).map(item => {
     const descElement = item.querySelector('description')
     const pubDateElement = item.querySelector('pubDate')
     return {

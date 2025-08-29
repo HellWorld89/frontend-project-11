@@ -46,7 +46,7 @@ export default class View {
   setupLanguageSwitcher() {
     this.langSwitcher.value = i18next.language
 
-    this.langSwitcher.addEventListener('change', (e) => {
+    this.langSwitcher.addEventListener('change', e => {
       const newLng = e.target.value
 
       i18next.changeLanguage(newLng).then(() => {
@@ -88,7 +88,7 @@ export default class View {
     }
     this.feedsContainer.innerHTML = ''
     const fragment = document.createDocumentFragment()
-    this.state.feeds.forEach((feed) => {
+    this.state.feeds.forEach(feed => {
       const feedEl = document.createElement('div')
       feedEl.classList.add('card', 'mb-3')
       feedEl.innerHTML = `
@@ -107,7 +107,7 @@ export default class View {
     this.postsContainer.innerHTML = ''
     const fragment = document.createDocumentFragment()
 
-    this.state.posts.forEach((post) => {
+    this.state.posts.forEach(post => {
       const isRead = this.state.readPostIds.includes(post.id)
       const postEl = document.createElement('div')
       postEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
@@ -178,25 +178,25 @@ export default class View {
     this.renderPosts()
     View.renderUpdateIndicator()
     switch (this.state.form.status) {
-      case 'invalid':
-        this.input.classList.add('is-invalid')
-        this.feedback.textContent = i18next.t(this.state.form.error)
-        this.feedback.classList.add('text-danger')
-        break
+    case 'invalid':
+      this.input.classList.add('is-invalid')
+      this.feedback.textContent = i18next.t(this.state.form.error)
+      this.feedback.classList.add('text-danger')
+      break
 
-      case 'submitted':
-        this.feedback.textContent = i18next.t('success')
-        this.feedback.classList.add('text-success')
-        this.form.reset()
-        this.input.focus()
-        break
+    case 'submitted':
+      this.feedback.textContent = i18next.t('success')
+      this.feedback.classList.add('text-success')
+      this.form.reset()
+      this.input.focus()
+      break
 
-      case 'validating':
-        this.feedback.textContent = i18next.t('loading')
-        break
+    case 'validating':
+      this.feedback.textContent = i18next.t('loading')
+      break
 
-      default:
-        break
+    default:
+      break
     }
   }
 

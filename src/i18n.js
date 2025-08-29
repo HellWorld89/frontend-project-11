@@ -22,7 +22,7 @@ i18nInstance
   .then(() => {
     console.log('i18next initialization completed')
   })
-  .catch((error) => {
+  .catch(error => {
     console.error('i18next initialization failed:', error)
   })
 
