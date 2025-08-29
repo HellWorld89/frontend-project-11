@@ -53,7 +53,7 @@ initializeApp().then(() => {
   }
 
   view.state.onPreviewButtonClick = (postId) => {
-    const post = state.posts.find((p) => p.id === postId)
+    const post = state.posts.find(p => p.id === postId)
     if (post) {
       openModal(state, postId)
       view.openModal(post)
@@ -92,7 +92,7 @@ elements.form.addEventListener('submit', async (e) => {
     state.form.status = 'validating'
     state.form.url = url
 
-    const existingUrls = state.feeds.map((feed) => feed.url)
+    const existingUrls = state.feeds.map(feed => feed.url)
     const validator = createValidator(existingUrls)
 
     const validUrl = await validateUrl(url, validator)
