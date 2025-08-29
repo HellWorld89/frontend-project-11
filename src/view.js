@@ -178,25 +178,25 @@ export default class View {
     this.renderPosts()
     View.renderUpdateIndicator()
     switch (this.state.form.status) {
-    case 'invalid':
-      this.input.classList.add('is-invalid')
-      this.feedback.textContent = i18next.t(this.state.form.error)
-      this.feedback.classList.add('text-danger')
-      break
+      case 'invalid':
+        this.input.classList.add('is-invalid')
+        this.feedback.textContent = i18next.t(this.state.form.error)
+        this.feedback.classList.add('text-danger')
+        break
 
-    case 'submitted':
-      this.feedback.textContent = i18next.t('success')
-      this.feedback.classList.add('text-success')
-      this.form.reset()
-      this.input.focus()
-      break
+      case 'submitted':
+        this.feedback.textContent = i18next.t('success')
+        this.feedback.classList.add('text-success')
+        this.form.reset()
+        this.input.focus()
+        break
 
-    case 'validating':
-      this.feedback.textContent = i18next.t('loading')
-      break
+      case 'validating':
+        this.feedback.textContent = i18next.t('loading')
+        break
 
-    default:
-      break
+      default:
+        break
     }
   }
 
