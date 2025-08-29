@@ -38,6 +38,9 @@ export const markPostAsRead = (state, postId) => {
   const newState = onChange.target(state);
   if (!newState.readPostIds.includes(postId)) {
     newState.readPostIds = [...newState.readPostIds, postId];
+    if (typeof state.onChangeCallback === 'function') {
+      state.onChangeCallback();
+    }
   }
 };
 

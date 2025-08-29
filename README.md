@@ -4,8 +4,8 @@
 # RSS Агрегатор
 
 [![Vercel Deployment](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-green?style=for-the-badge)](https://frontend-project-11-b8aromxhq-sapozhnikovls-projects.vercel.app)
-[![Vercel Status](https://img.shields.io/static/v1?label=Vercel&message=Production&color=blue&logo=vercel)](https://frontend-project-11-b8aromxhq-sapozhnikovls-projects.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-green?style=for-the-badge)](https://frontend-project-11-d1pjhvlt2-sapozhnikovls-projects.vercel.app)
+[![Vercel Status](https://img.shields.io/static/v1?label=Vercel&message=Production&color=blue&logo=vercel)](https://frontend-project-11-d1pjhvlt2-sapozhnikovls-projects.vercel.app)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg)](https://developer.mozilla.org/ru/docs/Web/JavaScript)
 [![Vite](https://img.shields.io/badge/Vite-Build%20Tool-646CFF.svg)](https://vitejs.dev/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg)](https://getbootstrap.com/)
@@ -107,7 +107,7 @@ frontend-project-11/
    http://liura.ru/sitemap.xml
    ```
 
-   
+
 ## 🔧 Основные команды управления
 
 - Добавление RSS-ленты: введите URL в поле ввода и нажмите "Добавить"

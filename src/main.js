@@ -1,5 +1,5 @@
 import {
-  initState, addFeed, openModal, closeModal,
+  initState, addFeed, openModal, closeModal, markPostAsRead,
 } from './state';
 import View from './view';
 import { createValidator, validateUrl } from './validator';
@@ -13,7 +13,6 @@ const elements = {
   submitButton: document.querySelector('button[type="submit"]'),
 };
 
-// Добавляем проверку на существование элементов
 if (!elements.form || !elements.input || !elements.feedback) {
   throw new Error('Required elements not found in DOM');
 }
@@ -25,10 +24,8 @@ const state = initState(() => {
   }
 });
 
-// Флаг инициализации
 let isAppInitialized = false;
 
-// Функция инициализации приложения
 function initializeApp() {
   return new Promise((resolve) => {
     if (i18next.isInitialized) {
@@ -43,21 +40,29 @@ function initializeApp() {
   });
 }
 
-// Инициализируем приложение
 initializeApp().then(() => {
   view.init(state);
   View.updateStaticTexts();
   isAppInitialized = true;
 
-  // Устанавливаем обработчики после инициализации
+  view.state.markPostAsRead = (postId) => {
+    markPostAsRead(state, postId);
+    if (view.render) {
+      view.render();
+    }
+  };
+
   view.state.onPreviewButtonClick = (postId) => {
     const post = state.posts.find((p) => p.id === postId);
     if (post) {
       openModal(state, postId);
       view.openModal(post);
+
+      if (view.state.markPostAsRead) {
+        view.state.markPostAsRead(postId);
+      }
     }
   };
-
   view.state.onModalClose = () => {
     closeModal(state);
   };
@@ -67,7 +72,6 @@ initializeApp().then(() => {
   console.error('Failed to initialize application:', error);
 });
 
-// Обработчик формы
 elements.form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -76,7 +80,6 @@ elements.form.addEventListener('submit', async (e) => {
     return;
   }
 
-  // Блокируем кнопку отправки
   if (elements.submitButton) {
     elements.submitButton.disabled = true;
   }
@@ -103,7 +106,6 @@ elements.form.addEventListener('submit', async (e) => {
       id: `${feedId}-${index}`,
       feedId,
     }));
-
     addFeed(state, feedWithId, postsWithId);
     state.form.status = 'submitted';
     state.form.error = null;
@@ -119,7 +121,6 @@ elements.form.addEventListener('submit', async (e) => {
       view.render();
     }
 
-    // Разблокируем кнопку отправки
     if (elements.submitButton) {
       elements.submitButton.disabled = false;
     }

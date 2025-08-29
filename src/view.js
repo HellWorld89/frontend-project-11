@@ -16,7 +16,6 @@ export default class View {
     this.modal = new Modal(document.getElementById('postPreviewModal'));
     this.modalTitle = document.getElementById('postPreviewModalLabel');
     this.modalDescription = document.getElementById('postPreviewDescription');
-    this.modalLink = document.getElementById('postPreviewLink');
   }
 
   init(state) {
@@ -24,6 +23,12 @@ export default class View {
     this.render();
     this.setupLanguageSwitcher();
     this.updateModalTexts();
+    document.getElementById('postPreviewModal').addEventListener('hidden.bs.modal', () => {
+      if (this.state.onModalClose) {
+        this.state.onModalClose();
+      }
+      this.renderPosts();
+    });
   }
 
   updateModalTexts() {
@@ -107,37 +112,39 @@ export default class View {
       const postEl = document.createElement('div');
       postEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start');
 
-      // Создаем ссылку с минимальными классами
+      const contentContainer = document.createElement('div');
+      contentContainer.classList.add('d-flex', 'justify-content-between', 'align-items-start', 'w-100');
+
       const link = document.createElement('a');
       link.href = post.link;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       link.className = isRead ? 'fw-normal' : 'fw-bold';
       link.textContent = post.title;
-
-      // Применяем стили через JavaScript вместо CSS-классов
-      link.style.marginRight = '1rem';
       link.style.flexGrow = '1';
+      link.style.marginRight = '1rem';
 
-      // Создаем кнопку просмотра
+      link.addEventListener('click', () => {
+        if (this.state.markPostAsRead) {
+          this.state.markPostAsRead(post.id);
+          this.render();
+        }
+      });
+
       const previewButton = document.createElement('button');
       previewButton.type = 'button';
       previewButton.className = 'btn btn-outline-primary btn-sm';
       previewButton.dataset.id = post.id;
-      previewButton.dataset.bsToggle = 'modal';
-      previewButton.dataset.bsTarget = '#postPreviewModal';
       previewButton.textContent = i18next.t('preview');
-
-      // Добавляем обработчик клика
       previewButton.addEventListener('click', () => {
         if (this.state.onPreviewButtonClick) {
           this.state.onPreviewButtonClick(post.id);
         }
       });
 
-      // Собираем структуру
-      postEl.appendChild(link);
-      postEl.appendChild(previewButton);
+      contentContainer.appendChild(link);
+      contentContainer.appendChild(previewButton);
+      postEl.appendChild(contentContainer);
       fragment.appendChild(postEl);
     });
 
@@ -152,7 +159,9 @@ export default class View {
       '<img style="max-width: 100%; height: auto;"',
     );
     this.modalDescription.innerHTML = description;
-    this.modalLink.href = post.link;
+    if (this.modalReadFullButton) {
+      this.modalReadFullButton.href = post.link;
+    }
     this.updateModalTexts();
     this.modal.show();
   }
