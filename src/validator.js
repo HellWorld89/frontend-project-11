@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-export const createValidator = (existingUrls) => yup.string()
+export const createValidator = existingUrls => yup.string()
   .required()
   .url()
   .notOneOf(existingUrls)

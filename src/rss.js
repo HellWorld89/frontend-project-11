@@ -48,9 +48,9 @@ export function processFeed(url, data) {
     const content = typeof data === 'string' ? data : data.contents
     return parseRSS(content)
   }
-   catch (_error) {
-    throw new Error('errors.parsing')
-  }
+ catch {
+  throw new Error('errors.parsing')
+}
 }
 
 // Основные функции обновления
@@ -60,7 +60,7 @@ export function updateFeeds(state) {
   const promises = state.feeds.map((feed) => {
     console.log(`📡 Проверяем фид: ${feed.title}`)
     return fetchRSS(feed.url)
-      .then((data) => processFeed(feed.url, data))
+      .then(data => processFeed(feed.url, data))
       .then(({ posts }) => {
         const feedPosts = state.posts.filter((post) => post.feedId === feed.id)
         const latestExistingPost = feedPosts.length > 0
