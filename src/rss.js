@@ -50,7 +50,7 @@ export function processFeed(url, data) {
   }
   catch {
     throw new Error('errors.parsing')
- }
+  }
 }
 
 // Основные функции обновления
