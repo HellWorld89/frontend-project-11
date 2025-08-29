@@ -105,27 +105,39 @@ export default class View {
       const isRead = this.state.readPostIds.includes(post.id);
       const postEl = document.createElement('div');
       postEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start');
-      postEl.innerHTML = `
-      <a href="${post.link}"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="${isRead ? 'fw-normal' : 'fw-bold'} me-3 flex-grow-1">
-        ${post.title}
-      </a>
-      <button type="button"
-              class="btn btn-outline-primary btn-sm"
-              data-id="${post.id}"
-              data-bs-toggle="modal"
-              data-bs-target="#postPreviewModal">
-        ${i18next.t('preview')}
-      </button>
-    `;
-      const previewButton = postEl.querySelector('button');
+
+      // Создаем элемент ссылки с минимальными классами
+      const link = document.createElement('a');
+      link.href = post.link;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.className = isRead ? 'fw-normal' : 'fw-bold';
+      link.textContent = post.title;
+
+      // Создаем контейнер для ссылки с дополнительными классами
+      const linkContainer = document.createElement('div');
+      linkContainer.className = 'me-3 flex-grow-1';
+      linkContainer.appendChild(link);
+
+      // Создаем кнопку предпросмотра
+      const previewButton = document.createElement('button');
+      previewButton.type = 'button';
+      previewButton.className = 'btn btn-outline-primary btn-sm';
+      previewButton.dataset.id = post.id;
+      previewButton.dataset.bsToggle = 'modal';
+      previewButton.dataset.bsTarget = '#postPreviewModal';
+      previewButton.textContent = i18next.t('preview');
+
+      // Добавляем обработчик клика
       previewButton.addEventListener('click', () => {
         if (this.state.onPreviewButtonClick) {
           this.state.onPreviewButtonClick(post.id);
         }
       });
+
+      // Собираем структуру
+      postEl.appendChild(linkContainer);
+      postEl.appendChild(previewButton);
       fragment.appendChild(postEl);
     });
     this.postsContainer.appendChild(fragment);
