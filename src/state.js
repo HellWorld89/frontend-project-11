@@ -1,6 +1,6 @@
 import onChange from 'on-change'
 
-export const initState = onChangeCallback => {
+export const initState = (onChangeCallback) => {
   const state = {
     feeds: [],
     posts: [],
@@ -51,7 +51,7 @@ export const openModal = (state, postId) => {
   markPostAsRead(newState, postId)
 }
 
-export const closeModal = state => {
+export const closeModal = (state) => {
   const newState = onChange.target(state)
   newState.ui.modal.isOpen = false
   newState.ui.modal.postId = null

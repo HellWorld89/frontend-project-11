@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-export const createValidator = existingUrls => yup.string()
+export const createValidator = (existingUrls) => yup.string()
   .required()
   .url()
   .notOneOf(existingUrls)
@@ -8,7 +8,7 @@ export const createValidator = existingUrls => yup.string()
 export const validateUrl = (url, schema) => new Promise((resolve, reject) => {
   schema.validate(url)
     .then(resolve)
-    .catch(error => {
+    .catch((error) => {
       let errorKey = 'errors.unknown'
 
       if (error.type === 'required') errorKey = 'errors.required'

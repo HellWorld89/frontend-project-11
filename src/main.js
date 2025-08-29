@@ -27,7 +27,7 @@ const state = initState(() => {
 let isAppInitialized = false
 
 function initializeApp() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     if (i18next.isInitialized) {
       resolve()
       return
@@ -45,15 +45,15 @@ initializeApp().then(() => {
   View.updateStaticTexts()
   isAppInitialized = true
 
-  view.state.markPostAsRead = postId => {
+  view.state.markPostAsRead = (postId) => {
     markPostAsRead(state, postId)
     if (view.render) {
       view.render()
     }
   }
 
-  view.state.onPreviewButtonClick = postId => {
-    const post = state.posts.find(p => p.id === postId)
+  view.state.onPreviewButtonClick = (postId) => {
+    const post = state.posts.find((p) => p.id === postId)
     if (post) {
       openModal(state, postId)
       view.openModal(post)
@@ -68,11 +68,11 @@ initializeApp().then(() => {
   }
 
   console.log('Application initialized successfully')
-}).catch(error => {
+}).catch((error) => {
   console.error('Failed to initialize application:', error)
 })
 
-elements.form.addEventListener('submit', async e => {
+elements.form.addEventListener('submit', async (e) => {
   e.preventDefault()
 
   if (!isAppInitialized) {
@@ -92,7 +92,7 @@ elements.form.addEventListener('submit', async e => {
     state.form.status = 'validating'
     state.form.url = url
 
-    const existingUrls = state.feeds.map(feed => feed.url)
+    const existingUrls = state.feeds.map((feed) => feed.url)
     const validator = createValidator(existingUrls)
 
     const validUrl = await validateUrl(url, validator)

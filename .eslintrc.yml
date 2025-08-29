@@ -1,12 +1,12 @@
 extends: airbnb-base
 rules:
   linebreak-style: ["error", "unix"]
-  indent: ["error", 2]
+  indent: ["error", 2, { "SwitchCase": 1 }]
   no-console: "off"
   semi: ["error", "never"]
-  arrow-parens: ["error", "as-needed"]
-  brace-style: ["error", "stroustrup"]
-  max-statements-per-line: ["error", { "max": 1 }]
-  no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]
+  'arrow-parens': ["error", "always"]  # Всегда требовать скобки для аргументов стрелочной функции
+  'brace-style': ["error", "stroustrup"]  # Стиль скобок Stroustrup
+  'max-statements-per-line': ["error", { "max": 1 }]
+  'no-unused-vars': ["error", { "argsIgnorePattern": "^_" }]
 env:
   browser: true

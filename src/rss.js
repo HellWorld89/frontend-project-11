@@ -15,7 +15,7 @@ export function stopUpdateCycle() {
 export function fetchRSS(url) {
   const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`
   return axios.get(proxyUrl)
-    .then(response => {
+    .then((response) => {
       if (!response.data || typeof response.data !== 'object') {
         throw new Error('errors.network')
       }
@@ -35,7 +35,7 @@ export function fetchRSS(url) {
 
       return response.data.contents || response.data
     })
-    .catch(error => {
+    .catch((error) => {
       if (error.isAxiosError) {
         throw new Error('errors.network')
       }
@@ -57,18 +57,18 @@ export function processFeed(url, data) {
 export function updateFeeds(state) {
   console.log('🔁 Начало проверки обновлений', new Date().toLocaleTimeString())
 
-  const promises = state.feeds.map(feed => {
+  const promises = state.feeds.map((feed) => {
     console.log(`📡 Проверяем фид: ${feed.title}`)
     return fetchRSS(feed.url)
-      .then(data => processFeed(feed.url, data))
+      .then((data) => processFeed(feed.url, data))
       .then(({ posts }) => {
-        const feedPosts = state.posts.filter(post => post.feedId === feed.id)
+        const feedPosts = state.posts.filter((post) => post.feedId === feed.id)
         const latestExistingPost = feedPosts.length > 0
           ? feedPosts.sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0))[0]
           : null
 
         // Фильтруем новые посты - только те, которые новее самого свежего из имеющихся
-        const newPosts = posts.filter(post => {
+        const newPosts = posts.filter((post) => {
           // Если нет даты публикации или нет существующих постов, считаем все посты новыми
           if (!post.pubDate || !latestExistingPost || !latestExistingPost.pubDate) return true
 
@@ -87,7 +87,7 @@ export function updateFeeds(state) {
           console.log('✅ Добавлены новые посты в начало списка')
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('❌ Ошибка при обновлении фида:', error)
       })
   })
