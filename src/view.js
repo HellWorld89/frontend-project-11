@@ -101,12 +101,13 @@ export default class View {
     if (!this.postsContainer) return;
     this.postsContainer.innerHTML = '';
     const fragment = document.createDocumentFragment();
+
     this.state.posts.forEach((post) => {
       const isRead = this.state.readPostIds.includes(post.id);
       const postEl = document.createElement('div');
       postEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start');
 
-      // Создаем элемент ссылки с минимальными классами
+      // Создаем ссылку с минимальными классами
       const link = document.createElement('a');
       link.href = post.link;
       link.target = '_blank';
@@ -114,12 +115,11 @@ export default class View {
       link.className = isRead ? 'fw-normal' : 'fw-bold';
       link.textContent = post.title;
 
-      // Создаем контейнер для ссылки с дополнительными классами
-      const linkContainer = document.createElement('div');
-      linkContainer.className = 'me-3 flex-grow-1';
-      linkContainer.appendChild(link);
+      // Применяем стили через JavaScript вместо CSS-классов
+      link.style.marginRight = '1rem';
+      link.style.flexGrow = '1';
 
-      // Создаем кнопку предпросмотра
+      // Создаем кнопку просмотра
       const previewButton = document.createElement('button');
       previewButton.type = 'button';
       previewButton.className = 'btn btn-outline-primary btn-sm';
@@ -136,10 +136,11 @@ export default class View {
       });
 
       // Собираем структуру
-      postEl.appendChild(linkContainer);
+      postEl.appendChild(link);
       postEl.appendChild(previewButton);
       fragment.appendChild(postEl);
     });
+
     this.postsContainer.appendChild(fragment);
   }
 
