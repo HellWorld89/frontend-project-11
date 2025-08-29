@@ -3,5 +3,10 @@ rules:
   linebreak-style: ["error", "unix"]
   indent: ["error", 2]
   no-console: "off"
+  semi: ["error", "never"]
+  arrow-parens: ["error", "as-needed"]
+  brace-style: ["error", "stroustrup"]
+  max-statements-per-line: ["error", { "max": 1 }]
+  no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]
 env:
   browser: true

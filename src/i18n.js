@@ -1,9 +1,9 @@
-import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import ruTranslation from './locales/ru/translation.json';
-import enTranslation from './locales/en/translation.json';
+import i18next from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import ruTranslation from './locales/ru/translation.json'
+import enTranslation from './locales/en/translation.json'
 
-const i18nInstance = i18next.createInstance();
+const i18nInstance = i18next.createInstance()
 
 i18nInstance
   .use(LanguageDetector)
@@ -20,10 +20,10 @@ i18nInstance
     },
   })
   .then(() => {
-    console.log('i18next initialization completed');
+    console.log('i18next initialization completed')
   })
-  .catch((error) => {
-    console.error('i18next initialization failed:', error);
-  });
+  .catch(error => {
+    console.error('i18next initialization failed:', error)
+  })
 
-export default i18nInstance;
+export default i18nInstance
