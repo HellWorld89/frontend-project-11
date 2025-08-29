@@ -3,7 +3,7 @@ import {
 } from './state'
 import View from './view'
 import { createValidator, validateUrl } from './validator'
-import i18next from './i18n'
+import i18next from './i18n';
 import { fetchRSS, processFeed, startUpdateCycle } from './rss'
 
 const elements = {
@@ -41,90 +41,88 @@ function initializeApp() {
 }
 
 initializeApp().then(() => {
-  view.init(state)
-  View.updateStaticTexts()
-  isAppInitialized = true
+  view.init(state);
+  View.updateStaticTexts();
+  isAppInitialized = true;
 
   view.state.markPostAsRead = (postId) => {
-    markPostAsRead(state, postId)
+    markPostAsRead(state, postId);
     if (view.render) {
-      view.render()
+      view.render();
     }
-  }
+  };
 
   view.state.onPreviewButtonClick = (postId) => {
-    const post = state.posts.find((p) => p.id === postId)
+    const post = state.posts.find((p) => p.id === postId);
     if (post) {
-      openModal(state, postId)
-      view.openModal(post)
+      openModal(state, postId);
+      view.openModal(post);
 
       if (view.state.markPostAsRead) {
-        view.state.markPostAsRead(postId)
+        view.state.markPostAsRead(postId);
       }
     }
-  }
+  };
   view.state.onModalClose = () => {
-    closeModal(state)
-  }
+    closeModal(state);
+  };
 
-  console.log('Application initialized successfully')
+  console.log('Application initialized successfully');
 }).catch((error) => {
-  console.error('Failed to initialize application:', error)
-})
+  console.error('Failed to initialize application:', error);
+});
 
 elements.form.addEventListener('submit', async (e) => {
-  e.preventDefault()
+  e.preventDefault();
 
   if (!isAppInitialized) {
-    console.error('Application is not initialized yet')
-    return
+    console.error('Application is not initialized yet');
+    return;
   }
 
   if (elements.submitButton) {
-    elements.submitButton.disabled = true
+    elements.submitButton.disabled = true;
   }
 
   try {
-    const formData = new FormData(e.target)
-    const rawUrl = formData.get('url')
-    const url = rawUrl ? rawUrl.trim() : ''
+    const formData = new FormData(e.target);
+    const rawUrl = formData.get('url');
+    const url = rawUrl ? rawUrl.trim() : '';
 
-    state.form.status = 'validating'
-    state.form.url = url
+    state.form.status = 'validating';
+    state.form.url = url;
 
-    const existingUrls = state.feeds.map(feed => feed.url)
-    const validator = createValidator(existingUrls)
+    const existingUrls = state.feeds.map((feed) => feed.url);
+    const validator = createValidator(existingUrls);
 
-    const validUrl = await validateUrl(url, validator)
-    const data = await fetchRSS(validUrl)
-    const { feed, posts } = processFeed(url, data)
+    const validUrl = await validateUrl(url, validator);
+    const data = await fetchRSS(validUrl);
+    const { feed, posts } = processFeed(url, data);
 
-    const feedId = Date.now()
-    const feedWithId = { ...feed, id: feedId, url }
+    const feedId = Date.now();
+    const feedWithId = { ...feed, id: feedId, url };
     const postsWithId = posts.map((post, index) => ({
       ...post,
       id: `${feedId}-${index}`,
       feedId,
-    }))
-    addFeed(state, feedWithId, postsWithId)
-    state.form.status = 'submitted'
-    state.form.error = null
+    }));
+    addFeed(state, feedWithId, postsWithId);
+    state.form.status = 'submitted';
+    state.form.error = null;
 
-    startUpdateCycle(state)
-  }
-  catch (error) {
-    state.form.status = 'invalid'
-    const errorKey = error instanceof Error ? error.message : error
-    state.form.error = errorKey
-    console.error('Error adding feed:', error)
-  }
-  finally {
+    startUpdateCycle(state);
+  } catch (error) {
+    state.form.status = 'invalid';
+    const errorKey = error instanceof Error ? error.message : error;
+    state.form.error = errorKey;
+    console.error('Error adding feed:', error);
+  } finally {
     if (view.render) {
-      view.render()
+      view.render();
     }
 
     if (elements.submitButton) {
-      elements.submitButton.disabled = false
+      elements.submitButton.disabled = false;
     }
   }
-})
+});
