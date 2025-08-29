@@ -60,9 +60,9 @@ export function updateFeeds(state) {
   const promises = state.feeds.map((feed) => {
     console.log(`📡 Проверяем фид: ${feed.title}`)
     return fetchRSS(feed.url)
-      .then(data => processFeed(feed.url, data))
+      .then((data) => processFeed(feed.url, data))
       .then(({ posts }) => {
-        const feedPosts = state.posts.filter(post => post.feedId === feed.id)
+        const feedPosts = state.posts.filter((post) => post.feedId === feed.id)
         const latestExistingPost = feedPosts.length > 0
           ? feedPosts.sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0))[0]
           : null
