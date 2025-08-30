@@ -27,7 +27,7 @@ const state = initState(() => {
 let isAppInitialized = false
 
 function initializeApp() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     if (i18next.isInitialized) {
       resolve()
       return
@@ -45,14 +45,14 @@ initializeApp().then(() => {
   View.updateStaticTexts()
   isAppInitialized = true
 
-  view.state.markPostAsRead = postId => {
+  view.state.markPostAsRead = (postId) => {
     markPostAsRead(state, postId)
     if (view.render) {
       view.render()
     }
   }
 
-  view.state.onPreviewButtonClick = postId => {
+  view.state.onPreviewButtonClick = (postId) => {
     const post = state.posts.find(p => p.id === postId)
     if (post) {
       openModal(state, postId)
@@ -68,11 +68,11 @@ initializeApp().then(() => {
   }
 
   console.log('Application initialized successfully')
-}).catch(error => {
+}).catch((error) => {
   console.error('Failed to initialize application:', error)
 })
 
-elements.form.addEventListener('submit', async e => {
+elements.form.addEventListener('submit', async (e) => {
   e.preventDefault()
 
   if (!isAppInitialized) {
@@ -111,12 +111,14 @@ elements.form.addEventListener('submit', async e => {
     state.form.error = null
 
     startUpdateCycle(state)
-  } catch (error) {
+  }
+  catch (error) {
     state.form.status = 'invalid'
     const errorKey = error instanceof Error ? error.message : error
     state.form.error = errorKey
     console.error('Error adding feed:', error)
-  } finally {
+  }
+  finally {
     if (view.render) {
       view.render()
     }
